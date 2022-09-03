@@ -1,9 +1,12 @@
-import numpy as np
 import matplotlib.pyplot as plt
-plt.rcParams['figure.figsize'] = (12.0, 9.0)
+import numpy as np
+from sklearn.linear_model import LinearRegression
 from src.cria_data_frame import CriaDataFrame
 
-class MinimosQuadradosLevelArea:
+plt.rcParams["figure.figsize"] = (12.0, 9.0)
+
+
+class MinimosQuadradosLevelArea(LinearRegression):
     """
     Método dos mínimos quadrados considerando relação level-area
     """
@@ -15,71 +18,69 @@ class MinimosQuadradosLevelArea:
         self.lista_level = None
         self.lista_area = None
         self.file_path = None
+        self.mmq_level_area = None
 
     def configura_var_independente_level(self, file_path) -> list:
         """
-        Retorna lista da variavel independente Level
-        :param - None
-        :return - list
+        Retorna matriz da variavel independente level.
+        :param - file_path = string com caminho e nome do arquivo.
+        :return - matriz numpay
         """
         self.file_path = file_path
         self.df = self.data_frame.cria_data_frame(self.file_path)
-        self.lista_level = self.df.level.tolist()
-        
-        return self.lista_level
+        self.lista_level = np.array(self.df.level)
+        self.mtx_level = self.lista_level.reshape(-1, 1)
+
+        return self.mtx_level
 
     def configura_var_dependente_area(self, file_path) -> list:
         """
-        Retorna lista da variavel independente Level
-        :param - None
-        :return - list
+        Retorna um matriz numpy da variavel independente area
+        :param - file_path = string com o caminho e nome do arquivo.
+        :return - Matriz numpy
         """
         self.file_path = file_path
         self.df = self.data_frame.cria_data_frame(file_path)
-        self.lista_area = self.df.area.tolist()
-        
-        return self.lista_area
-    
-    def minimos_quadrados_level_area(self) -> list:
+        self.lista_area = np.array(self.df.area)
+        self.mtx_area = self.lista_area.reshape(-1, 1)
+
+        return self.mtx_area
+
+    def minimos_quadrados_level_area(self, mtx_level, mtx_area) -> None:
         """
-        Executa o método dos mínimos quadrados.
-        :patam - None
-        :return - list
+        Executa o ajuste da reta pelo método dos mínimos quadrados.
+        :param - mtx_level = matriz numpy com os valores de nível.
+               - mtx_area = matriz numpy com os valores de area.
+        :return - None
         """
-
-        self.x_var_independente_level = self.configura_var_independente_level(self.file_path)
-        self.y_var_dependente_area = self.configura_var_dependente_area(self.file_path)
-        self.x_media = np.mean(self.x_var_independente_level)
-        self.y_media = np.mean(self.y_var_dependente_area)
-
-        for i in range(len(self.x_var_independente_level)):
-            self.numerador += (self.x_var_independente_level[i] - self.x_media)*(
-                self.y_var_dependente_area[i] - self.y_media
-            )
-
-            self.denominador += (self.x_var_independente_level[i] - self.x_media) ** 2
-
-            self.coef_ang = self.numerador / self.denominador
-            self.coef_lin = self.y_media - self.coef_ang*self.x_media
-
-            self.lista_coeficientes = [self.coef_ang,self.coef_lin]
-
-            return self.lista_coeficientes
-        
-    def plota_grafico(self) -> None:
-        """
-        Plota gráfico 
-        :param = none
-        :return = none
-        """
-        self.y_pred = self.coef_ang*np.array(self.x_var_independente_level) + self.coef_lin
-        plt.scatter(self.x_var_independente_level, self.y_var_dependente_area)
-        plt.plot([min(self.x_var_independente_level), max(self.x_var_independente_level)], [min(self.y_pred), max(self.y_pred)], color='red')
-        plt.title(f'Area = {round(self.coef_ang, 3)} * nivel + {round(self.coef_lin, 3)}')
-        plt.show()
-
+        self.mtx_level = mtx_level
+        self.mtx_area = mtx_area
+        self.mmq_level_area = LinearRegression()
+        self.mmq_level_area.fit(mtx_level, mtx_area)
         return None
 
+    def obter_coef_linear(self) -> float:
+        """
+        Retorna o coeficiente linear da reta
+        :param - None
+        :return - float
+        """
+        self.coef_linear = self.mmq_level_area.intercept_
+        return float(round(self.coef_linear[0], 3))
 
+    def obter_coef_angular(self) -> float:
+        """
+        Retorna o coeficiente angular da reta
+        :param - None
+        :return - float
+        """
+        self.coef_angular = self.mmq_level_area.coef_
+        return float(round(self.coef_angular[0][0], 3))
 
-    
+    def obter_variaveis_estimadas_de_area(self, var_independente) -> list:
+        """
+        Realiza as previsões de acordo com a reta ajustada
+        """
+        self.var_independente_level = var_independente
+        self.var_estimada = self.mmq_level_area.predict(self.var_independente_level)
+        return self.var_estimada
