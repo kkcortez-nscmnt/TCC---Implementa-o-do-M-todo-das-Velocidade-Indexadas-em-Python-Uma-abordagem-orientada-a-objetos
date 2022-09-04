@@ -10,11 +10,9 @@ mmq_level_area.minimos_quadrados_level_area(
 )
 coef_linear = mmq_level_area.obter_coef_linear()
 coef_angular = mmq_level_area.obter_coef_angular()
-print(coef_linear)
-print(type(coef_linear))
-print(coef_angular)
-print(type(coef_angular))
 variaveis_estimadas_de_area = mmq_level_area.obter_variaveis_estimadas_de_area(
     mtx_var_independente_level
 )
-print(variaveis_estimadas_de_area)
+mmq_level_area.plotar_gráfico(
+    mtx_var_independente_level, mtx_var_dependente_area, variaveis_estimadas_de_area
+)

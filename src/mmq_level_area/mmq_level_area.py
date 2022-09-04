@@ -1,9 +1,7 @@
-import matplotlib.pyplot as plt
 import numpy as np
+import plotly.express as px
 from sklearn.linear_model import LinearRegression
 from src.cria_data_frame import CriaDataFrame
-
-plt.rcParams["figure.figsize"] = (12.0, 9.0)
 
 
 class MinimosQuadradosLevelArea(LinearRegression):
@@ -84,3 +82,29 @@ class MinimosQuadradosLevelArea(LinearRegression):
         self.var_independente_level = var_independente
         self.var_estimada = self.mmq_level_area.predict(self.var_independente_level)
         return self.var_estimada
+
+    def plotar_gráfico(self, eixo_x, eixo_y, estimados) -> None:
+        """
+        Plota o gráfico do ajuste linear pelo mínimos quadrados.
+
+        :param - eixo_x = variavel independente
+               - eixo_y = variavel dependente
+               - estimados = variaveis estimadas através do ajuste da reta pelo minimos quadrados
+        :return - None
+        """
+        self.eixo_x = eixo_x.ravel()
+        self.eixo_y = eixo_y.ravel()
+        self.estimados = estimados.ravel()
+
+        self.grafico = px.scatter(
+            x=self.eixo_x,
+            y=self.eixo_y,
+            title=f"Área(m²) = {round(self.coef_angular[0][0],3)} * nível(m) + {round(self.coef_linear[0],3)} ",
+        )
+        self.grafico.add_scatter(
+            x=self.eixo_x,
+            y=self.estimados,
+            name="Reta Ajustada",
+        )
+        self.grafico.update_layout(xaxis_title="Nível (m)", yaxis_title="Área (m²)")
+        self.grafico.show()
