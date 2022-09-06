@@ -1,0 +1,1 @@
+from .mmq_velmed_velx import MinimosQuadradosVelxVelMed
