@@ -8,6 +8,7 @@ file_path = "file.xlsx"
 
 mmq_level_area = MinimosQuadradosLevelArea()
 mtx_var_independente_level = mmq_level_area.configura_var_independente_level(file_path)
+
 mtx_var_dependente_area = mmq_level_area.configura_var_dependente_area(file_path)
 mmq_level_area.minimos_quadrados_level_area(
     mtx_var_independente_level, mtx_var_dependente_area
@@ -52,14 +53,11 @@ mmq_velx_vmed.plotar_grafico_residuais_velx_vmed(
 # OBTER SERIE DE VAZÃO
 
 obter_serie_vazao = ObtemSerieVazao()
-
 mtx_vazao_obs = obter_serie_vazao.configura_var_vazao_observada(file_path)
-
-mtx_vazao_estimada = obter_serie_vazao.obter_serie_de_estimadas_de_vazao(
+mtx_vazao_estimada = obter_serie_vazao.obter_serie_estimadas_de_vazao(
     variaveis_estimadas_de_vmed, variaveis_estimadas_de_area
 )
 obter_serie_vazao.obter_coeficiente_de_nash_sutcliffe(mtx_vazao_obs, mtx_vazao_estimada)
-
-obter_serie_vazao.plotar_grafico_vazao_obs_vazao_est(
+obter_serie_vazao.plotar_grafico_vazao_observada_vazao_estimada(
     file_path, mtx_vazao_obs, mtx_vazao_estimada
 )

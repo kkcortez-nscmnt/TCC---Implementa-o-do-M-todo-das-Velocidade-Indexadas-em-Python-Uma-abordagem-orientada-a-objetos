@@ -12,18 +12,16 @@ class MinimosQuadradosLevelArea(LinearRegression):
 
     def __init__(self) -> None:
         self.data_frame = CriaDataFrame()
-        self.numerador = 0
-        self.denominador = 0
         self.lista_level = None
         self.lista_area = None
         self.file_path = None
         self.mmq_level_area = None
 
-    def configura_var_independente_level(self, file_path) -> list:
+    def configura_var_independente_level(self, file_path) -> np.ndarray:
         """
         Retorna matriz da variavel independente level.
         :param - file_path = string com caminho e nome do arquivo.
-        :return - matriz numpy
+        :return - matriz numpy np.ndarray
         """
         self.file_path = file_path
         self.df = self.data_frame.cria_data_frame(self.file_path)
@@ -32,11 +30,11 @@ class MinimosQuadradosLevelArea(LinearRegression):
 
         return self.mtx_level
 
-    def configura_var_dependente_area(self, file_path) -> list:
+    def configura_var_dependente_area(self, file_path) -> np.ndarray:
         """
         Retorna um matriz numpy da variavel independente area
         :param - file_path = string com o caminho e nome do arquivo.
-        :return - Matriz numpy
+        :return - Matriz numpy np.ndarray
         """
         self.file_path = file_path
         self.df = self.data_frame.cria_data_frame(file_path)
@@ -76,7 +74,7 @@ class MinimosQuadradosLevelArea(LinearRegression):
         self.coef_angular = self.mmq_level_area.coef_
         return float(round(self.coef_angular[0][0], 3))
 
-    def obter_variaveis_estimadas_de_area(self, var_independente) -> list:
+    def obter_variaveis_estimadas_de_area(self, var_independente) -> np.ndarray:
         """
         Realiza as previsões de acordo com a reta ajustada
         """

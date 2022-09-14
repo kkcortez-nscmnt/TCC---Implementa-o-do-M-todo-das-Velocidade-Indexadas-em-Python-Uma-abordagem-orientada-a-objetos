@@ -12,14 +12,12 @@ class MinimosQuadradosVelxVelMed(LinearRegression):
 
     def __init__(self) -> None:
         self.data_frame = CriaDataFrame()
-        self.numerador = 0
-        self.denominador = 0
         self.lista_velx = None
         self.lista_vmed = None
         self.file_path = None
         self.mmq_velx_vmed = None
 
-    def configura_var_independente_velx(self, file_path) -> list:
+    def configura_var_independente_velx(self, file_path) -> np.ndarray:
         """
         Retorna matriz da variavel independente velocidade da direção x.
         :param - file_path = string com caminho e nome do arquivo.
@@ -32,7 +30,7 @@ class MinimosQuadradosVelxVelMed(LinearRegression):
 
         return self.mtx_velx
 
-    def configura_var_dependente_vmed(self, file_path) -> list:
+    def configura_var_dependente_vmed(self, file_path) -> np.ndarray:
         """
         Retorna um matriz numpy da variavel dependente area
         :param - file_path = string com o caminho e nome do arquivo.
@@ -76,7 +74,7 @@ class MinimosQuadradosVelxVelMed(LinearRegression):
         self.coef_angular = self.mmq_velx_vmed.coef_
         return float(round(self.coef_angular[0][0], 3))
 
-    def obter_variaveis_estimadas_de_vmed(self, var_independente) -> list:
+    def obter_variaveis_estimadas_de_vmed(self, var_independente) -> np.ndarray:
         """
         Realiza as previsões de acordo com a reta ajustada
         :param = var_independente = lista de variaveis velocidades na direção x

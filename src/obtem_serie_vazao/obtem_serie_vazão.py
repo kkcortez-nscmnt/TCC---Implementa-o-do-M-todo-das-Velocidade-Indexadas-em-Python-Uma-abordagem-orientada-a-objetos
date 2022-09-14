@@ -17,7 +17,7 @@ class ObtemSerieVazao(LinearRegression):
         self.vazao_observada = None
         self.cns = None
 
-    def configura_var_vazao_observada(self, file_path) -> list:
+    def configura_var_vazao_observada(self, file_path) -> np.ndarray:
         """
         Retorna matriz da variavel vazões observadas.
         :param - file_path = string com caminho e nome do arquivo.
@@ -30,7 +30,9 @@ class ObtemSerieVazao(LinearRegression):
 
         return self.mtx_vazao_obs
 
-    def obter_serie_de_estimadas_de_vazao(self, vmed_estimada, area_estimada):
+    def obter_serie_estimadas_de_vazao(
+        self, vmed_estimada, area_estimada
+    ) -> np.ndarray:
         """
         Aplica o método Velocidade - Área.
         :param - vel_estimada = serie estimada de velocidade media (m/s)
@@ -54,7 +56,7 @@ class ObtemSerieVazao(LinearRegression):
         )
         return self.cns
 
-    def plotar_grafico_vazao_obs_vazao_est(
+    def plotar_grafico_vazao_observada_vazao_estimada(
         self, file_path, vazao_observada, vazao_estimada
     ):
 
