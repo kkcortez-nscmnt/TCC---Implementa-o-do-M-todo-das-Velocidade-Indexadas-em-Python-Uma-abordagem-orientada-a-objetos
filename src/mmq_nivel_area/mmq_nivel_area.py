@@ -5,19 +5,19 @@ from src.cria_data_frame import CriaDataFrame
 from yellowbrick.regressor import ResidualsPlot
 
 
-class MinimosQuadradosLevelArea(LinearRegression):
+class MinimosQuadradosNivelArea(LinearRegression):
     """
     Método dos mínimos quadrados considerando relação level-area
     """
 
     def __init__(self) -> None:
         self.data_frame = CriaDataFrame()
-        self.lista_level = None
+        self.lista_nivel = None
         self.lista_area = None
         self.file_path = None
-        self.mmq_level_area = None
+        self.mmq_nivel_area = None
 
-    def configura_var_independente_level(self, file_path) -> np.ndarray:
+    def configura_var_independente_nivel(self, file_path) -> np.ndarray:
         """
         Retorna matriz da variavel independente level.
         :param - file_path = string com caminho e nome do arquivo.
@@ -25,10 +25,10 @@ class MinimosQuadradosLevelArea(LinearRegression):
         """
         self.file_path = file_path
         self.df = self.data_frame.cria_data_frame(self.file_path)
-        self.lista_level = np.array(self.df.level)
-        self.mtx_level = self.lista_level.reshape(-1, 1)
+        self.lista_nivel = np.array(self.df.level)
+        self.mtx_nivel = self.lista_nivel.reshape(-1, 1)
 
-        return self.mtx_level
+        return self.mtx_nivel
 
     def configura_var_dependente_area(self, file_path) -> np.ndarray:
         """
@@ -43,17 +43,17 @@ class MinimosQuadradosLevelArea(LinearRegression):
 
         return self.mtx_area
 
-    def minimos_quadrados_level_area(self, mtx_level, mtx_area) -> None:
+    def minimos_quadrados_nivel_area(self, mtx_nivel, mtx_area) -> None:
         """
         Executa o ajuste da reta pelo método dos mínimos quadrados.
-        :param - mtx_level = matriz numpy com os valores de nível.
+        :param - mtx_nivel = matriz numpy com os valores de nível.
                - mtx_area = matriz numpy com os valores de area.
         :return - None
         """
-        self.mtx_level = mtx_level
+        self.mtx_nivel = mtx_nivel
         self.mtx_area = mtx_area
-        self.mmq_level_area = LinearRegression()
-        self.mmq_level_area.fit(mtx_level, mtx_area)
+        self.mmq_nivel_area = LinearRegression()
+        self.mmq_nivel_area.fit(mtx_nivel, mtx_area)
         return None
 
     def obter_coef_linear(self) -> float:
@@ -62,7 +62,7 @@ class MinimosQuadradosLevelArea(LinearRegression):
         :param - None
         :return - float
         """
-        self.coef_linear = self.mmq_level_area.intercept_
+        self.coef_linear = self.mmq_nivel_area.intercept_
         return float(round(self.coef_linear[0], 3))
 
     def obter_coef_angular(self) -> float:
@@ -71,18 +71,18 @@ class MinimosQuadradosLevelArea(LinearRegression):
         :param - None
         :return - float
         """
-        self.coef_angular = self.mmq_level_area.coef_
+        self.coef_angular = self.mmq_nivel_area.coef_
         return float(round(self.coef_angular[0][0], 3))
 
     def obter_variaveis_estimadas_de_area(self, var_independente) -> np.ndarray:
         """
         Realiza as previsões de acordo com a reta ajustada
         """
-        self.var_independente_level = var_independente
-        self.var_estimada = self.mmq_level_area.predict(self.var_independente_level)
+        self.var_independente_nivel = var_independente
+        self.var_estimada = self.mmq_nivel_area.predict(self.var_independente_nivel)
         return self.var_estimada
 
-    def plotar_grafico_do_ajuste_level_area(self, eixo_x, eixo_y, estimados) -> None:
+    def plotar_grafico_do_ajuste_nivel_area(self, eixo_x, eixo_y, estimados) -> None:
         """
         Plota o gráfico do ajuste linear pelo mínimos quadrados.
 
@@ -93,7 +93,7 @@ class MinimosQuadradosLevelArea(LinearRegression):
         """
         self.eixo_x = eixo_x
         self.eixo_y = eixo_y
-        self.coef_cor = self.mmq_level_area.score(self.eixo_x, self.eixo_y)
+        self.coef_cor = self.mmq_nivel_area.score(self.eixo_x, self.eixo_y)
         self.eixo_x = eixo_x.ravel()
         self.eixo_y = eixo_y.ravel()
         self.estimados = estimados.ravel()
@@ -111,7 +111,7 @@ class MinimosQuadradosLevelArea(LinearRegression):
         self.grafico.update_layout(xaxis_title="Nível (m)", yaxis_title="Área (m²)")
         self.grafico.show()
 
-    def plotar_grafico_residuais_level_area(self, eixo_x, eixo_y) -> None:
+    def plotar_grafico_residuais_nivel_area(self, eixo_x, eixo_y) -> None:
         """
         Plota o gráfico de visualização residual da relação entre os dados e a reta ajustada.
         :param - eixo_x = variavel independente
@@ -121,6 +121,6 @@ class MinimosQuadradosLevelArea(LinearRegression):
         self.eixo_x = eixo_x
         self.eixo_y = eixo_y
 
-        self.visualizador = ResidualsPlot(self.mmq_level_area)
+        self.visualizador = ResidualsPlot(self.mmq_nivel_area)
         self.visualizador.fit(self.eixo_x, self.eixo_y)
         self.visualizador.poof()

@@ -1,4 +1,4 @@
-from src.mmq_level_area import MinimosQuadradosLevelArea
+from src.mmq_nivel_area import MinimosQuadradosNivelArea
 from src.mmq_velmed_velx import MinimosQuadradosVelxVelMed
 from src.obtem_serie_vazao import ObtemSerieVazao
 
@@ -6,23 +6,23 @@ file_path = "file.xlsx"
 
 # AJUSTE DA RETA POR MÍNIMOS QUADRADOS RELAÇÃO NIVEL- AREA DA SEÇÃO DE CONTROLE
 
-mmq_level_area = MinimosQuadradosLevelArea()
-mtx_var_independente_level = mmq_level_area.configura_var_independente_level(file_path)
+mmq_nivel_area = MinimosQuadradosNivelArea()
+mtx_var_independente_nivel = mmq_nivel_area.configura_var_independente_nivel(file_path)
 
-mtx_var_dependente_area = mmq_level_area.configura_var_dependente_area(file_path)
-mmq_level_area.minimos_quadrados_level_area(
-    mtx_var_independente_level, mtx_var_dependente_area
+mtx_var_dependente_area = mmq_nivel_area.configura_var_dependente_area(file_path)
+mmq_nivel_area.minimos_quadrados_nivel_area(
+    mtx_var_independente_nivel, mtx_var_dependente_area
 )
-coef_linear = mmq_level_area.obter_coef_linear()
-coef_angular = mmq_level_area.obter_coef_angular()
-variaveis_estimadas_de_area = mmq_level_area.obter_variaveis_estimadas_de_area(
-    mtx_var_independente_level
+coef_linear = mmq_nivel_area.obter_coef_linear()
+coef_angular = mmq_nivel_area.obter_coef_angular()
+variaveis_estimadas_de_area = mmq_nivel_area.obter_variaveis_estimadas_de_area(
+    mtx_var_independente_nivel
 )
-mmq_level_area.plotar_grafico_do_ajuste_level_area(
-    mtx_var_independente_level, mtx_var_dependente_area, variaveis_estimadas_de_area
+mmq_nivel_area.plotar_grafico_do_ajuste_nivel_area(
+    mtx_var_independente_nivel, mtx_var_dependente_area, variaveis_estimadas_de_area
 )
-mmq_level_area.plotar_grafico_residuais_level_area(
-    mtx_var_independente_level, mtx_var_dependente_area
+mmq_nivel_area.plotar_grafico_residuais_nivel_area(
+    mtx_var_independente_nivel, mtx_var_dependente_area
 )
 
 
