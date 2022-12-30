@@ -1,7 +1,7 @@
 import numpy as np
 import plotly.express as px
 from sklearn.linear_model import LinearRegression
-from src.cria_data_frame import CriaDataFrame
+from src.criar_data_frame import CriarDataFrame
 from yellowbrick.regressor import ResidualsPlot
 
 
@@ -11,13 +11,13 @@ class MinimosQuadradosNivelArea(LinearRegression):
     """
 
     def __init__(self) -> None:
-        self.data_frame = CriaDataFrame()
+        self.data_frame = CriarDataFrame()
         self.lista_nivel = None
         self.lista_area = None
         self.file_path = None
         self.mmq_nivel_area = None
 
-    def configura_var_independente_nivel(self, file_path) -> np.ndarray:
+    def configurar_var_independente_nivel(self, file_path) -> np.ndarray:
         """
         Retorna matriz da variavel independente level.
         :param - file_path = string com caminho e nome do arquivo.
@@ -30,7 +30,7 @@ class MinimosQuadradosNivelArea(LinearRegression):
 
         return self.mtx_nivel
 
-    def configura_var_dependente_area(self, file_path) -> np.ndarray:
+    def configurar_var_dependente_area(self, file_path) -> np.ndarray:
         """
         Retorna um matriz numpy da variavel independente area
         :param - file_path = string com o caminho e nome do arquivo.

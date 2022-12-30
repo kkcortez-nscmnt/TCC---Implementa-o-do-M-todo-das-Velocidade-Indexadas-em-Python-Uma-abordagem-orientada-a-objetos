@@ -1,7 +1,7 @@
 import numpy as np
 import plotly.express as px
 from sklearn.linear_model import LinearRegression
-from src.cria_data_frame import CriaDataFrame
+from src.criar_data_frame import CriarDataFrame
 from yellowbrick.regressor import ResidualsPlot
 
 
@@ -11,13 +11,13 @@ class MinimosQuadradosVelxVelMed(LinearRegression):
     """
 
     def __init__(self) -> None:
-        self.data_frame = CriaDataFrame()
+        self.data_frame = CriarDataFrame()
         self.lista_velx = None
         self.lista_vmed = None
         self.file_path = None
         self.mmq_velx_vmed = None
 
-    def configura_var_independente_velx(self, file_path) -> np.ndarray:
+    def configurar_var_independente_velx(self, file_path) -> np.ndarray:
         """
         Retorna matriz da variavel independente velocidade da direção x.
         :param - file_path = string com caminho e nome do arquivo.
@@ -30,7 +30,7 @@ class MinimosQuadradosVelxVelMed(LinearRegression):
 
         return self.mtx_velx
 
-    def configura_var_dependente_vmed(self, file_path) -> np.ndarray:
+    def configurar_var_dependente_vmed(self, file_path) -> np.ndarray:
         """
         Retorna um matriz numpy da variavel dependente area
         :param - file_path = string com o caminho e nome do arquivo.

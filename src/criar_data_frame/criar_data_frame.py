@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-class CriaDataFrame:
+class CriarDataFrame:
     """
     Classe responsável pela criação do data frame.
     """
@@ -10,7 +10,7 @@ class CriaDataFrame:
         self.data_frame = None
         self.nome_do_arquivo_xlsx = None
 
-    def cria_data_frame(self, file_path):
+    def criar_data_frame(self, file_path):
         """
         Cria e retorna um data frame a partir de um arquivo excel.
         :para - file_path: string com o caminho/nome do arquivo.

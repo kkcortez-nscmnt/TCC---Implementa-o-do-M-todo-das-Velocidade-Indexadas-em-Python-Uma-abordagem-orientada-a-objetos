@@ -1,7 +1,7 @@
 import numpy as np
 import plotly.express as px
 from sklearn.linear_model import LinearRegression
-from src.cria_data_frame import CriaDataFrame
+from src.criar_data_frame import CriaDataFrame
 
 
 class ObtemSerieVazao(LinearRegression):
